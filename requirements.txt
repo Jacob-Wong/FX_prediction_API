@@ -1,6 +1,6 @@
 numpy
 fastapi
-tensorflow
+tensorflow-CPU
 datetime
 sklearn
 yfinance
