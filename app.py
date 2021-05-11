@@ -93,5 +93,5 @@ async def read_user_item(fx_pair: str, interval: str):
         "start_date": start_date.strftime('%Y-%m-%d'),
         "end_date": end_date.strftime('%Y-%m-%d'),
         "interval": interval,
-        "predict-result": predictions
+        "prediction": predictions
     }
