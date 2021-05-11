@@ -79,7 +79,7 @@ app.add_middleware(
 
 @app.get('/')  # basic get view
 def basic_view():
-    return {"WELCOME": "GO TO /docs route, or /post or send post request to /predict "}
+    return {"WELCOME": "GO TO /docs route or send get request to /predict "}
 
 
 @app.get('/predict/{fx_pair}/{interval}')
