@@ -89,9 +89,9 @@ async def read_user_item(fx_pair: str, interval: str):
     predictions = float("{:.5f}".format((predictions[0][0])))
 
     return {
-        "predict data": {
+        "predict-data": {
             "start": start_date.strftime('%Y-%m-%d'),
             "end": end_date.strftime('%Y-%m-%d'),
             "interval": interval},
-        "predict result": {fx_pair: predictions}
+        "predict-result": {fx_pair: predictions}
     }
