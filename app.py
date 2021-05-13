@@ -33,7 +33,7 @@ def DataPreprcess(fx_pair, interval):
     date_saver = date_saver[:30]
 
     date_saver.values.tolist()
-    from_date, to_date = test_date.iloc[0].name.strftime('%Y-%m-%d'), test_date.iloc[-1].name.strftime('%Y-%m-%d')
+    from_date, to_date = date_saver.iloc[0].name.strftime('%Y-%m-%d'), date_saver.iloc[-1].name.strftime('%Y-%m-%d')
 
 
     # get the last 30 day price values and convert the dataframe to an array
