@@ -1,3 +1,4 @@
+import pandas as pd
 import numpy as np
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,11 +13,9 @@ def DataPreprcess(fx_pair, interval):
     # set the data range for getting data
     end_date = datetime.datetime.now()
     if (interval == 'd'):
-        x = datetime.timedelta(days=80)
-        end_date = end_date - datetime.timedelta(days=1)
+        x = datetime.timedelta(days=100)
     elif (interval == 'wk'):
-        x = datetime.timedelta(weeks=80)
-        end_date = end_date - datetime.timedelta(weeks=1)
+        x = datetime.timedelta(weeks=100)
     start_date = end_date - x
 
     # get data fom yahoo using data reader
@@ -26,10 +25,19 @@ def DataPreprcess(fx_pair, interval):
                      progress=False,
                      interval="1"+interval)  # 1wk 1d
     currency_data = FX.filter(['Adj Close'])
-    currency_data = currency_data[:len(currency_data)]
+    date_saver = FX.filter(['Date'])
+
+    currency_data = currency_data[-31:]
+    currency_data = currency_data[:30]
+    date_saver = date_saver[-31:]
+    date_saver = date_saver[:30]
+
+    date_saver.values.tolist()
+    from_date, to_date = test_date.iloc[0].name.strftime('%Y-%m-%d'), test_date.iloc[-1].name.strftime('%Y-%m-%d')
+
 
     # get the last 30 day price values and convert the dataframe to an array
-    last_30 = currency_data[-30:].values.tolist()
+    last_30 = currency_data.values.tolist()
 
     # scale the data to be values between 0 and 1
     sc = MinMaxScaler(feature_range=(0, 1))
@@ -47,7 +55,7 @@ def DataPreprcess(fx_pair, interval):
     # reshape the data
     X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
-    return X_test, sc, start_date, end_date
+    return X_test, sc, from_date, to_date
 
 
 def DefineInterval(interval):
@@ -101,15 +109,15 @@ async def read_user_item(fx_pair: str, interval: str):
             loaded_model = tf.keras.models.load_model(
                 'USDJPY_Weekly.h5')
 
-    X_test, sc, start_date, end_date = DataPreprcess(fx_pair, timeframe)
+    X_test, sc, from_date, to_date = DataPreprcess(fx_pair, timeframe)
     predictions = loaded_model.predict(X_test)
     predictions = sc.inverse_transform(predictions)
     predictions = float("{:.5f}".format((predictions[0][0])))
 
     return {
         "pair": fx_pair,
-        "start_date": start_date.strftime('%Y-%m-%d'),
-        "end_date": end_date.strftime('%Y-%m-%d'),
+        "start_date": from_date,
+        "end_date": to_date,
         "interval": interval,
         "prediction": predictions
     }
