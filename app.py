@@ -33,7 +33,7 @@ def DataPreprcess(fx_pair, interval):
     date_saver = date_saver[:30]
 
     last_price = currency_data.iloc[-1]
-    last_price
+    last_price = last_price.values[0]
 
     date_saver.values.tolist()
     from_date, to_date = date_saver.iloc[0].name.strftime('%Y-%m-%d'), date_saver.iloc[-1].name.strftime('%Y-%m-%d')
