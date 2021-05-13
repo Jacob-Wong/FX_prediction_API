@@ -32,6 +32,9 @@ def DataPreprcess(fx_pair, interval):
     date_saver = date_saver[-31:]
     date_saver = date_saver[:30]
 
+    last_price = currency_data.iloc[-1]
+    last_price
+
     date_saver.values.tolist()
     from_date, to_date = date_saver.iloc[0].name.strftime('%Y-%m-%d'), date_saver.iloc[-1].name.strftime('%Y-%m-%d')
 
@@ -55,7 +58,7 @@ def DataPreprcess(fx_pair, interval):
     # reshape the data
     X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
-    return X_test, sc, from_date, to_date
+    return X_test, sc, from_date, to_date, last_price
 
 
 def DefineInterval(interval):
@@ -109,15 +112,27 @@ async def read_user_item(fx_pair: str, interval: str):
             loaded_model = tf.keras.models.load_model(
                 'USDJPY_Weekly.h5')
 
-    X_test, sc, from_date, to_date = DataPreprcess(fx_pair, timeframe)
+    X_test, sc, from_date, to_date, last_price = DataPreprcess(fx_pair, timeframe)
     predictions = loaded_model.predict(X_test)
     predictions = sc.inverse_transform(predictions)
     predictions = float("{:.5f}".format((predictions[0][0])))
+
+    trend = ''
+    action = ''
+    if(predictions>last_price):
+        trend = "Upward"
+        action = "BUY"
+    else:
+        trend = "Downward"
+        action = "SELL"
 
     return {
         "pair": fx_pair,
         "start_date": from_date,
         "end_date": to_date,
+        "last_price": last_price,
         "interval": interval,
-        "prediction": predictions
+        "prediction": predictions,
+        'trend': trend,
+        'action': action,
     }
