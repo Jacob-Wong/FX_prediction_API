@@ -116,6 +116,7 @@ async def read_user_item(fx_pair: str, interval: str):
     predictions = loaded_model.predict(X_test)
     predictions = sc.inverse_transform(predictions)
     predictions = float("{:.5f}".format((predictions[0][0])))
+    last_price = float("{:.5f}".format(last_price))
 
     trend = ''
     action = ''
