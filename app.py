@@ -120,12 +120,15 @@ async def read_user_item(fx_pair: str, interval: str):
 
     trend = ''
     action = ''
+    color = ''
     if(predictions>last_price):
         trend = "Upward"
         action = "BUY"
+        color = 'green'
     else:
         trend = "Downward"
         action = "SELL"
+        color = 'red'
 
     return {
         "pair": fx_pair,
@@ -136,4 +139,5 @@ async def read_user_item(fx_pair: str, interval: str):
         "prediction": predictions,
         'trend': trend,
         'action': action,
+        "color": 
     }
