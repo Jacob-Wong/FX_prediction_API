@@ -44,6 +44,7 @@ def DataPreprcess(fx_pair, interval):
     elif (interval == 'wk'):
         x = datetime.timedelta(weeks=1)
     predicting_date = predicting_date + x
+    predicting_date = predicting_date.strftime('%Y-%m-%d')
 
     # get the last 30 day price values and convert the dataframe to an array
     last_30 = currency_data.values.tolist()
