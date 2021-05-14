@@ -145,5 +145,6 @@ async def read_user_item(fx_pair: str, interval: str):
         "prediction": predictions,
         'trend': trend,
         'action': action,
-        "color": color
+        "color": color,
+        "predicting_date": predicting_date,
     }
