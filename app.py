@@ -38,6 +38,12 @@ def DataPreprcess(fx_pair, interval):
     date_saver.values.tolist()
     from_date, to_date = date_saver.iloc[0].name.strftime('%Y-%m-%d'), date_saver.iloc[-1].name.strftime('%Y-%m-%d')
 
+    predicting_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
+    if (interval == 'd'):
+        x = datetime.timedelta(days=1)
+    elif (interval == 'wk'):
+        x = datetime.timedelta(weeks=1)
+    predicting_date = predicting_date + x
 
     # get the last 30 day price values and convert the dataframe to an array
     last_30 = currency_data.values.tolist()
@@ -58,7 +64,7 @@ def DataPreprcess(fx_pair, interval):
     # reshape the data
     X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
-    return X_test, sc, from_date, to_date, last_price
+    return X_test, sc, from_date, to_date, last_price, predicting_date
 
 
 def DefineInterval(interval):
@@ -112,7 +118,7 @@ async def read_user_item(fx_pair: str, interval: str):
             loaded_model = tf.keras.models.load_model(
                 'USDJPY_Weekly.h5')
 
-    X_test, sc, from_date, to_date, last_price = DataPreprcess(fx_pair, timeframe)
+    X_test, sc, from_date, to_date, last_price, predicting_date = DataPreprcess(fx_pair, timeframe)
     predictions = loaded_model.predict(X_test)
     predictions = sc.inverse_transform(predictions)
     predictions = float("{:.4f}".format((predictions[0][0])))
