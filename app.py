@@ -115,8 +115,8 @@ async def read_user_item(fx_pair: str, interval: str):
     X_test, sc, from_date, to_date, last_price = DataPreprcess(fx_pair, timeframe)
     predictions = loaded_model.predict(X_test)
     predictions = sc.inverse_transform(predictions)
-    predictions = float("{:.5f}".format((predictions[0][0])))
-    last_price = float("{:.5f}".format(last_price))
+    predictions = float("{:.4f}".format((predictions[0][0])))
+    last_price = float("{:.4f}".format(last_price))
 
     trend = ''
     action = ''
