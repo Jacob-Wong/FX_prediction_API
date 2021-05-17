@@ -30,7 +30,7 @@ def DataPreprcess(fx_pair, interval):
     currency_data = currency_data[-31:]
     currency_data = currency_data[:30]
     date_saver = date_saver[-31:]
-    date_saver, predicting_date = date_saver[:30], data_saver[-1]
+    date_saver, predicting_date = date_saver[:30], date_saver[-1]
 
     last_price = currency_data.iloc[-1]
     last_price = last_price.values[0]
