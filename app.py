@@ -41,13 +41,14 @@ def DataPreprcess(fx_pair, interval):
     from_date, to_date = date_saver.iloc[0].name.strftime('%Y-%m-%d'), date_saver.iloc[-1].name.strftime('%Y-%m-%d')
 
     # predicting_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
-    # if (interval == 'd'):
-    #     x = datetime.timedelta(days=1)
-    # elif (interval == 'wk'):
-    #     x = datetime.timedelta(weeks=1)
-    # predicting_date = predicting_date + x
-    # predicting_date = predicting_date.strftime('%Y-%m-%d')
-    # predicting_date = predicting_date.iloc[0].name.strftime('%Y-%m-%d')
+
+    if (interval == 'wk'):
+        x = datetime.timedelta(weeks=1)
+        new_predicting_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
+        new_predicting_date = new_predicting_date + x
+        new_predicting_date = new_predicting_date.strftime('%Y-%m-%d')
+        new_predicting_date = new_predicting_date.iloc[0].name.strftime('%Y-%m-%d')
+        predicting_date = new_predicting_date
 
     # get the last 30 day price values and convert the dataframe to an array
     last_30 = currency_data.values.tolist()
