@@ -47,7 +47,6 @@ def DataPreprcess(fx_pair, interval):
         new_predicting_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
         new_predicting_date = new_predicting_date + x
         new_predicting_date = new_predicting_date.strftime('%Y-%m-%d')
-        new_predicting_date = new_predicting_date.iloc[0].name.strftime('%Y-%m-%d')
         predicting_date = new_predicting_date
 
     # get the last 30 day price values and convert the dataframe to an array
