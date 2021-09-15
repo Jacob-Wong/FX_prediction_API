@@ -1,5 +1,5 @@
 fastapi
-tensorflow-CPU
+tensorflow-CPU==2.4.1
 datetime
 sklearn
 yfinance
